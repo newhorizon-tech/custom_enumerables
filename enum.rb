@@ -10,6 +10,16 @@ module Enumerable
       yield(self[i], i)
     end
   end
+  
+  def my_select
+    result = []
+    length.times do |i|
+        if yield(self[i]) 
+          result << self[i]
+        end 
+    end
+    result
+  end
 end
 
 arr = %w[test value test enum]
@@ -28,3 +38,26 @@ arr.my_each_with_index do |p, q|
   print "\n"
 end
 puts '-' * 40
+
+test = [1,3,4,5,6,8]
+
+
+puts '-' * 40
+puts "\n3. #my_select \n"
+
+my_num = test.my_select {|n| n%2 == 0}
+
+puts my_num.inspect 
+
+puts '-' * 40
+
+
+puts '-' * 40
+puts "\n4. #my_select \n"
+
+
+puts '-' * 40
+
+
+
+
