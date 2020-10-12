@@ -20,6 +20,24 @@ module Enumerable
     end
     result
   end
+
+  def my_all?
+    result = true
+    if block_given?
+      length.times do |i|
+          if !yield(self[i]) or self[i] ==  nil
+            result = false
+          end 
+      end
+    else
+      length.times do |i|
+        if self[i] ==  nil
+          result = false
+        end 
+      end
+    end
+    result
+  end
 end
 
 arr = %w[test value test enum]
@@ -52,11 +70,15 @@ puts my_num.inspect
 puts '-' * 40
 
 
-puts '-' * 40
-puts "\n4. #my_select \n"
+puts "\n4. #my_all \n"
 
+puts %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
+puts %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
+puts [nil, true, 99].my_all?                              #=> false
+puts [].my_all?                                           #=> true
 
 puts '-' * 40
+
 
 
 
