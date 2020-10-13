@@ -53,14 +53,23 @@ module Enumerable
     result
   end
 
-  def my_count
+  def my_count(*arg)
     count = 0
     if block_given?
       length.times do |i|
         count += 1 if yield(self[i])
       end
+      count
+    elsif !arg.empty?
+      self.my_each do |item|
+        if item == 2
+          count += 1
+        end
+      end
+      count
+    else
+      self.length
     end
-    count
   end
 end
 
