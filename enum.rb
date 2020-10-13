@@ -103,10 +103,9 @@ module Enumerable
   end
 end
 
-def multiply_els (arr)
+def multiply_els(arr)
   arr.my_inject {|item_1, item_2| item_1 * item_2}
 end
-
 
 
 # arr = %w[test value test enum]
@@ -199,4 +198,15 @@ puts "\n Enum method 10. #multiply_els \n"
 p multiply_els([5,2,10,8]) #=> 40
 
 puts '-' * 40
+
+puts "\n Enum method 11. #my_map proc \n"
+
+sq = Proc.new { |x| x * x }
+
+cat_proc = Proc.new { 'cat' }
+
+p  (1..4).my_map(&sq) 
+
+p (1..4).my_map(&cat_proc)
+
 
