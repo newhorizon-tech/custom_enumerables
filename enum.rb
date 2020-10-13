@@ -1,13 +1,15 @@
 module Enumerable
   def my_each
-    length.times do |i|
-      yield(self[i])
+    my_each_arr = to_a
+    my_each_arr.length.times do |i|
+      yield(my_each_arr[i])
     end
   end
 
   def my_each_with_index
-    length.times do |i|
-      yield(self[i], i)
+    my_each_arr = to_a
+    my_each_arr.length.times do |i|
+      yield(my_each_arr[i], i)
     end
   end
 
@@ -78,6 +80,27 @@ module Enumerable
     end
     result
   end
+
+  def my_inject(arg = nil)
+    inject_arr=[]
+    if !arg.nil?
+      inject_arr.push(arg)
+    end
+    inject_arr += self.to_a
+    answer=0
+    if inject_arr.length == 1
+      return inject_arr[0]
+    else
+      inject_arr.length.times do |a|
+        if a==0
+          answer= yield(inject_arr[0],inject_arr[1])
+        elsif (a > 1)
+          answer = yield(inject_arr[a], answer)
+        end
+      end
+    end
+    answer
+  end
 end
 
 arr = %w[test value test enum]
@@ -135,4 +158,32 @@ puts "\n Enum method 8. #my_map \n"
 p (1..4).my_map { |i| i * i } #=> [1, 4, 9, 16]
 p (1..4).my_map { 'cat' } #=> ["cat", "cat", "cat", "cat"]
 p (1..4).my_map {}
+puts '-' * 40
+
+puts "\n Enum method 9. #my_inject \n"
+p "Original Inject"
+p [5].inject { |result, element| result * element } # => 20
+# Same using a block and inject
+p (5..10).inject { |sum, n| sum + n }            #=> 45
+# Same using a block
+p (5..10).inject(1) { |product, n| product * n } #=> 151200
+# find the longest word
+longest = %w{ cat sheep bear }.inject do |memo, word|
+   memo.length > word.length ? memo : word
+end
+p longest                                        #=> "sheep"
+
+puts '-' * 40
+
+p "My Inject"
+p [5].my_inject { |result, element| result * element } # => 20
+# Same using a block and inject
+p (5..10).my_inject { |sum, n| sum + n }            #=> 45
+# Same using a block
+p (5..10).my_inject(1) { |product, n| product * n } #=> 151200
+# find the longest word
+longest = %w{ cat sheep bear }.my_inject do |memo, word|
+   memo.length > word.length ? memo : word
+end
+p longest                                        #=> "sheep"
 puts '-' * 40
