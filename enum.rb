@@ -19,7 +19,7 @@ module Enumerable
     result
   end
 
-  def my_all?
+  def my_all?(arg = nil)
     result = true
     if block_given?
       length.times do |i|
@@ -82,7 +82,7 @@ module Enumerable
   end
 end
 
-# arr = %w[test value test enum]
+ #arr = %w[test value test enum]
 
 # puts '-' * 40
 # puts "\n Enum method 1. #my_each \n"
@@ -128,8 +128,10 @@ end
 # puts [1, 2, 3, 5, 6, 8].my_count { |n| n > 2 } #=> 4
 # puts '-' * 40
 
- puts "\n Enum method 8. #my_map \n"
-p (1..4).my_map { |i| i*i }      #=> [1, 4, 9, 16]
-p (1..4).my_map { "cat"  }   #=> ["cat", "cat", "cat", "cat"]
-p (1..4).my_map {} 
- puts '-' * 40
+#  puts "\n Enum method 8. #my_map \n"
+# p (1..4).my_map { |i| i*i }      #=> [1, 4, 9, 16]
+# p (1..4).my_map { "cat"  }   #=> ["cat", "cat", "cat", "cat"]
+# p (1..4).my_map {} 
+#  puts '-' * 40
+
+#p (1..4).my_each {|item| puts item}
