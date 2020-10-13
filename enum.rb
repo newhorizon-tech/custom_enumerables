@@ -172,11 +172,11 @@ puts '-' * 40
 
 puts "\n Enum method 9. #my_inject \n"
 p 'Original Inject'
-p [5].inject { |result, element| result * element } # => 20
+p { [5].inject { |result, element| result * element } } # => 20
 # Same using a block and inject
-p (5..10).inject { |sum, n| sum + n } #=> 45
-# Same using a block
-p (5..10).inject(1) { |product, n| product * n } #=> 151200
+p { (5..10).inject { |sum, n| sum + n } } #=> 45
+# Same using a block}
+p { (5..10).inject(1) { |product, n| product * n } } #=> 151200
 # find the longest word
 longest = %w[cat sheep bear].inject do |memo, word|
   memo.length > word.length ? memo : word
@@ -186,11 +186,11 @@ p longest #=> "sheep"
 puts '-' * 40
 
 p 'My Inject'
-p [5].my_inject { |result, element| result * element } # => 20
+p { [5].my_inject { |result, element| result * element } } # => 20
 # Same using a block and inject
-p (5..10).my_inject { |sum, n| sum + n } #=> 45
+p { (5..10).my_inject { |sum, n| sum + n } } #=> 45
 # Same using a block
-p (5..10).my_inject(1) { |product, n| product * n } #=> 151200
+p { (5..10).my_inject(1) { |product, n| product * n } } #=> 151200
 # find the longest word
 longest = %w[cat sheep bear].my_inject do |memo, word|
   memo.length > word.length ? memo : word
@@ -200,7 +200,7 @@ new_inject = [[:key, 'CONVERT'], [:value, 'LOWER CASE']].each_with_object({}) do
   result[element.first.to_s] = element.last.downcase
 end
 p new_inject # => {"key"=>"convert", "value"=>"lower case"}
-p [1.4, 2.1, 3.5].my_inject { |sum, n| sum + n } #=> 7.0
+p { [1.4, 2.1, 3.5].my_inject { |sum, n| sum + n } } #=> 7.0
 puts '-' * 40
 
 puts "\n Enum method 10. #multiply_els \n"
@@ -210,6 +210,6 @@ puts '-' * 40
 puts "\n Enum method 11. #my_map proc \n"
 sq = proc { |x| x * x }
 cat_proc = proc { 'cat' }
-p (1..4).my_map(&sq)
-p (1..4).my_map(&cat_proc)
+p { (1..4).my_map(&sq) }
+p { (1..4).my_map(&cat_proc) }
 puts '-' * 40
