@@ -2,9 +2,7 @@ module Enumerable
   def my_each
     if block_given?
       my_each_arr = to_a
-      my_each_arr.length.times do |i|
-        yield(my_each_arr[i])
-      end
+      my_each_arr.length.times { |i| yield(my_each_arr[i]) }
     else
       enum_for
     end
@@ -13,9 +11,7 @@ module Enumerable
   def my_each_with_index
     if block_given?
       my_each_arr = to_a
-      my_each_arr.length.times do |i|
-        yield(my_each_arr[i], i)
-      end
+      my_each_arr.length.times { |i| yield(my_each_arr[i], i) }
     else
       enum_for
     end
@@ -36,13 +32,9 @@ module Enumerable
   def my_all?(_arg = nil)
     result = true
     if block_given?
-      length.times do |i|
-        result = false if !yield(self[i]) or self[i].nil?
-      end
+      length.times { |i| result = false if !yield(self[i]) or self[i].nil? }
     else
-      length.times do |i|
-        result = false if self[i].nil?
-      end
+      length.times { |i| result = false if self[i].nil? }
     end
     result
   end
@@ -103,10 +95,10 @@ module Enumerable
     inject_arr += to_a
     answer = 0
     if inject_arr.length == 1
-      return inject_arr[0]
+      inject_arr[0]
     else
       inject_arr.length.times do |a|
-        if a == 0
+        if a.zero?
           answer = yield(inject_arr[0], inject_arr[1])
         elsif a > 1
           answer = yield(inject_arr[a], answer)
@@ -118,7 +110,7 @@ module Enumerable
 end
 
 def multiply_els(arr)
-  arr.my_inject { |item_1, item_2| item_1 * item_2 }
+  arr.my_inject { |item1, item2| item1 * item2 }
 end
 
 arr = %w[test value test enum]
@@ -128,8 +120,6 @@ puts "\n Enum method 1. #my_each \n"
 arr.my_each do |p|
   puts p
 end
-p 'Enumerator '
-puts arr.my_each.is_a?(Enumerator)
 
 puts '-' * 40
 puts "\nEnum method 2. #my_each_with_index \n"
@@ -148,25 +138,25 @@ puts my_num.inspect
 puts '-' * 40
 
 puts "\n Enum method 4. #my_all \n"
-puts %w[ant bear cat].my_all? { |word| word.length >= 3 } #=> true
-puts %w[ant bear cat].my_all? { |word| word.length >= 4 } #=> false
+puts { %w[ant bear cat].my_all? { |word| word.length >= 3 } } #=> true
+puts { %w[ant bear cat].my_all? { |word| word.length >= 4 } } #=> false
 puts [nil, true, 99].my_all? #=> false
 puts [].my_all? #=> true
 puts '-' * 40
 
 puts "\n Enum method 5. #my_any \n"
-puts [1, 2, 3, 5, 6, 8].my_any? { |n| n > 9 } #=> false
-puts [1, 2, 3, 5, 6, 8].my_any? { |n| n > 7 } #=> true
+puts { [1, 2, 3, 5, 6, 8].my_any? { |n| n > 9 } } #=> false
+puts { [1, 2, 3, 5, 6, 8].my_any? { |n| n > 7 } } #=> true
 puts '-' * 40
 
 puts "\n Enum method 6. #my_none \n"
-puts [1, 2, 3, 5, 6, 8].my_none? { |n| n > 9 } #=> true
-puts [1, 2, 3, 5, 6, 8].my_none? { |n| n > 7 } #=> false
+puts { [1, 2, 3, 5, 6, 8].my_none? { |n| n > 9 } } #=> true
+puts { [1, 2, 3, 5, 6, 8].my_none? { |n| n > 7 } } #=> false
 puts '-' * 40
 
 puts "\n Enum method 7. #my_count \n"
-puts [1, 2, 3, 5, 6, 8].my_count { |n| n > 4 } #=> 3
-puts [1, 2, 3, 5, 6, 8].my_count { |n| n > 2 } #=> 4
+puts { [1, 2, 3, 5, 6, 8].my_count { |n| n > 4 } } #=> 3
+puts { [1, 2, 3, 5, 6, 8].my_count { |n| n > 2 } } #=> 4
 
 ary = [1, 2, 3, 4, 3, 3, 3]
 puts ary.my_count #=> 7
@@ -175,9 +165,9 @@ puts ary.my_count(&:even?) #=> 2
 puts '-' * 40
 
 puts "\n Enum method 8. #my_map \n"
-p (1..4).my_map { |i| i * i } #=> [1, 4, 9, 16]
-p (1..4).my_map { 'cat' } #=> ["cat", "cat", "cat", "cat"]
-p (1..4).my_map {}
+p { (1..4).my_map { |i| i * i } } #=> [1, 4, 9, 16]
+p { (1..4).my_map { 'cat' } } #=> ["cat", "cat", "cat", "cat"]
+p { (1..4).my_map {} }
 puts '-' * 40
 
 puts "\n Enum method 9. #my_inject \n"
