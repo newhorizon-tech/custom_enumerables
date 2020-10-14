@@ -141,10 +141,9 @@ module Enumerable
       elsif two.is_a? Symbol
         init = one
         sym = two
-      else
-        init = one
       end
     end
+    init = one if block_given?
     inject_arr = []
     inject_arr.push(init) unless init.nil?
     inject_arr += to_a
@@ -152,6 +151,8 @@ module Enumerable
     if sym.nil?
       if inject_arr.length == 1
         inject_arr[0]
+      elsif inject_arr.length == 1 and inject_arr.empty?
+        init
       else
         inject_arr.length.times do |a|
           if a.zero?
