@@ -35,13 +35,17 @@ module Enumerable
   def my_all?(arg = nil)
     my_arr = to_a
     result = true
-    puts "Arg is #{arg}"
     if block_given?
       my_arr.length.times { |i| result = false if !yield(my_arr[i]) or my_arr[i].nil? }
     elsif !arg.nil?
       my_arr.length.times do |i|
-        puts "my_arr[i] is #{my_arr[i]} and condition is #{my_arr[i].is_a? arg}"
-        result = false unless my_arr[i].is_a? arg or my_arr[i].nil?
+        if arg.is_a? Regexp
+          result = false unless my_arr[i].match(arg) or my_arr[i].nil?
+        elsif arg.is_a? Class
+          result = false unless my_arr[i].is_a? arg or my_arr[i].nil?
+        else
+          result = false unless my_arr[i] == arg or my_arr[i].nil?
+        end
       end
     else
       my_arr.length.times { |i| result = false if !my_arr[i] or my_arr[i].nil? }
