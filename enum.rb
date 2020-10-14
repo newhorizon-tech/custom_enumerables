@@ -38,7 +38,7 @@ module Enumerable
     if block_given?
       my_arr.length.times { |i| result = false if !yield(my_arr[i]) or my_arr[i].nil? }
     else
-      my_arr.length.times { |i| result = false if my_arr[i].nil? }
+      my_arr.length.times { |i| result = false if !my_arr[i] or my_arr[i].nil? }
     end
     result
   end
@@ -225,8 +225,12 @@ array = [1, 3, 4, 4, 3, 2, 6, 8, 6, 8, 5, 4, 1, 2, 6, 4, 5, 0, 8, 4, 8, 6, 1,
          6, 3, 2, 6, 1, 8, 8, 6, 7, 7, 0, 2, 6, 4, 1, 6, 0, 5, 6, 4, 7, 1, 7, 6, 5, 2,
          6, 7, 8, 2, 0, 3, 7, 0, 1, 6, 4, 4, 5, 6, 3, 7, 3, 0, 2, 7, 5, 2, 5, 7, 5]
 
-false_block = proc { |num| num > 9 }
-range = Range.new(5, 50)
-p range.my_all?(&false_block)
-puts 'Original'
-p range.all?(&false_block)
+# false_block = proc { |num| num > 9 }
+# range = Range.new(5, 50)
+# p range.my_all?(&false_block)
+# puts 'Original'
+# p range.all?(&false_block)
+
+false_array = [1, false, 'hi', []]
+p false_array.my_all? # => true
+p false_array.all? # => false
