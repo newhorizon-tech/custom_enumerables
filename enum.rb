@@ -74,29 +74,40 @@ module Enumerable
     result
   end
 
-  # def my_any?
-  #   # result = false
-  #   # if block_given?
-  #   #   length.times do |i|
-  #   #     result = true if yield(self[i])
-  #   #   end
-  #   # else
-  #   #   enum_for
-  #   # end
-  #   # result
-  # end
-
-  def my_none?
+  def my_none?(arg = nil)
+    my_arr = to_a
     result = true
     if block_given?
-      length.times do |i|
-        result = false if yield(self[i])
+      my_arr.length.times do |i| 
+        result = false if yield(my_arr[i])
+      end
+    elsif !arg.nil?
+      my_arr.length.times do |i|
+        if arg.is_a? Regexp
+          result = false if my_arr[i].match(arg) 
+        elsif arg.is_a? Class
+          result = false if my_arr[i].is_a? arg 
+        else
+          result = false if my_arr[i] == arg
+        end
       end
     else
-      enum_for
+      my_arr.length.times { |i| result = false if my_arr[i] }
     end
     result
   end
+
+  # def my_none?
+  #   result = true
+  #   if block_given?
+  #     length.times do |i|
+  #       result = false if yield(self[i])
+  #     end
+  #   else
+  #     enum_for
+  #   end
+  #   result
+  # end
 
   def my_count(arg = nil)
     count = 0
@@ -185,8 +196,8 @@ end
 # puts '-' * 40
 
 # puts "\n Enum method 6. #my_none \n"
-# puts { [1, 2, 3, 5, 6, 8].my_none? { |n| n > 9 } } #=> true
-# puts { [1, 2, 3, 5, 6, 8].my_none? { |n| n > 7 } } #=> false
+# puts  [1, 2, 3, 5, 6, 8].my_none? { |n| n > 9 }  #=> true
+# puts  [1, 2, 3, 5, 6, 8].my_none? { |n| n > 7 }  #=> false
 # puts '-' * 40
 
 # puts "\n Enum method 7. #my_count \n"
@@ -250,10 +261,10 @@ end
 # puts '-' * 40
 
 #--------------------------------------------------------------------------------
+words = ["dogz", "door", "rod", "blade"] 
 
+p words.my_none?(/z/)
 
-
- 
 
 
   
