@@ -60,12 +60,12 @@ module Enumerable
       my_arr.length.times { |i| result = true if yield(my_arr[i]) }
     elsif !arg.nil?
       my_arr.length.times do |i|
-        if arg.is_a? Regexp
-          result = true if my_arr[i].match(arg)
-        elsif arg.is_a? Class
-          result = true if my_arr[i].is_a? arg
-        else
-          result = true if my_arr[i] == arg
+        if arg.is_a? Regexp and my_arr[i].match(arg)
+          result = true
+        elsif arg.is_a? Class and my_arr[i].is_a? arg
+          result = true
+        elsif my_arr[i] == arg
+          result = true
         end
       end
     else
@@ -85,10 +85,10 @@ module Enumerable
       my_arr.length.times do |i|
         if arg.is_a? Regexp
           result = false if my_arr[i].match(arg)
-        elsif arg.is_a? Class
-          result = false if my_arr[i].is_a? arg
-        else
-          result = false if my_arr[i] == arg
+        elsif arg.is_a? Class and my_arr[i].is_a? arg
+          result = false
+        elsif my_arr[i] == arg
+          result = false
         end
       end
     else
@@ -161,23 +161,21 @@ module Enumerable
           end
         end
       end
+    elsif inject_arr.length == 1
+      inject_arr[0]
     else
-      if inject_arr.length == 1
-        inject_arr[0]
-      else
-        case sym
-        when :+
-          return inject_arr.sum
-        when :*
-          answer = 1
-          inject_arr.length.times do |a|
-            answer *= inject_arr[a]
-          end
-          return answer
+      case sym
+      when :+
+        return inject_arr.sum
+      when :*
+        answer = 1
+        inject_arr.length.times do |a|
+          answer *= inject_arr[a]
         end
+        return answer
       end
-      answer
     end
+    answer
   end
 end
 

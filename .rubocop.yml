@@ -5,10 +5,10 @@ AllCops:
 
   DisplayCopNames: true
 
-Layout/LineLength:
+Metrics/LineLength:
   Max: 120
 Metrics/MethodLength:
-  Max: 20
+  Max: 50
 Metrics/AbcSize:
   Max: 50
 Metrics/ClassLength:
@@ -47,7 +47,7 @@ Lint/RaiseException:
   Enabled: false
 Lint/StructNewOverride:
   Enabled: false
-Style/HashEachMethods:
+Performance/HashEachMethods:
   Enabled: false
 Style/HashTransformKeys:
   Enabled: false
