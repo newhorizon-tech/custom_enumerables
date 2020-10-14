@@ -150,9 +150,7 @@ module Enumerable
     answer = 0
     if sym.nil?
       if inject_arr.length == 1
-        inject_arr[0]
-      elsif inject_arr.length == 1 and inject_arr.empty?
-        init
+        answer = inject_arr[0]
       else
         inject_arr.length.times do |a|
           if a.zero?
