@@ -132,23 +132,52 @@ module Enumerable
     result
   end
 
-  def my_inject(arg = nil)
-    inject_arr = []
-    inject_arr.push(arg) unless arg.nil?
-    inject_arr += to_a
-    answer = 0
-    if inject_arr.length == 1
-      inject_arr[0]
-    else
-      inject_arr.length.times do |a|
-        if a.zero?
-          answer = yield(inject_arr[0], inject_arr[1])
-        elsif a > 1
-          answer = yield(inject_arr[a], answer)
-        end
+  def my_inject(one = nil, two = nil)
+    init = nil
+    sym = nil
+    unless block_given?
+      if one.is_a? Symbol
+        sym = one
+      elsif two.is_a? Symbol
+        init = one
+        sym = two
+      else
+        init = one
       end
     end
-    answer
+    inject_arr = []
+    inject_arr.push(init) unless init.nil?
+    inject_arr += to_a
+    answer = 0
+    if sym.nil?
+      if inject_arr.length == 1
+        inject_arr[0]
+      else
+        inject_arr.length.times do |a|
+          if a.zero?
+            answer = yield(inject_arr[0], inject_arr[1])
+          elsif a > 1
+            answer = yield(inject_arr[a], answer)
+          end
+        end
+      end
+    else
+      if inject_arr.length == 1
+        inject_arr[0]
+      else
+        case sym
+        when :+
+          return inject_arr.sum
+        when :*
+          answer = 1
+          inject_arr.length.times do |a|
+            answer *= inject_arr[a]
+          end
+          return answer
+        end
+      end
+      answer
+    end
   end
 end
 
