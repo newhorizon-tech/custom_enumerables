@@ -53,17 +53,38 @@ module Enumerable
     result
   end
 
-  def my_any?
+  def my_any?(arg = nil)
+    my_arr = to_a
     result = false
     if block_given?
-      length.times do |i|
-        result = true if yield(self[i])
+      my_arr.length.times { |i| result = true if yield(my_arr[i]) }
+    elsif !arg.nil?
+      my_arr.length.times do |i|
+        if arg.is_a? Regexp
+          result = true if my_arr[i].match(arg)
+        elsif arg.is_a? Class
+          result = true if my_arr[i].is_a? arg  
+        else
+          result = true if my_arr[i] == arg 
+        end
       end
     else
-      enum_for
+      my_arr.length.times { |i| result = true if my_arr[i] }
     end
     result
   end
+
+  # def my_any?
+  #   # result = false
+  #   # if block_given?
+  #   #   length.times do |i|
+  #   #     result = true if yield(self[i])
+  #   #   end
+  #   # else
+  #   #   enum_for
+  #   # end
+  #   # result
+  # end
 
   def my_none?
     result = true
@@ -229,3 +250,10 @@ end
 # puts '-' * 40
 
 #--------------------------------------------------------------------------------
+
+
+
+ 
+
+
+  
