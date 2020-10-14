@@ -21,9 +21,10 @@ module Enumerable
 
   def my_select
     if block_given?
+      my_arr = self.to_a
       result = []
-      length.times do |i|
-        result << self[i] if yield(self[i])
+      my_arr.length.times do |i|
+        result << my_arr[i] if yield(my_arr[i])
       end
       result
     else
@@ -115,15 +116,15 @@ def multiply_els(arr)
   arr.my_inject { |item1, item2| item1 * item2 }
 end
 
-arr = %w[test value test enum]
+# arr = %w[test value test enum]
 
-puts '-' * 40
-puts "\n Enum method 1. #my_each \n"
- arr.my_each do |p|
-   puts p
- end
+# puts '-' * 40
+# puts "\n Enum method 1. #my_each \n"
+#  arr.my_each do |p|
+#    puts p
+#  end
 
-puts '-' * 40
+# puts '-' * 40
 # puts "\nEnum method 2. #my_each_with_index \n"
 # arr.my_each_with_index do |p, q|
 #   print [p, q]
@@ -218,5 +219,11 @@ puts '-' * 40
 
 
 #--------------------------------------------------------------------------------
- array = [1, 3, 4, 4, 3, 2, 6, 8, 6, 8, 5, 4, 1, 2, 6, 4, 5, 0, 8, 4, 8, 6, 1, 4, 3, 7, 1, 1, 3, 4, 3, 2, 8, 0, 0, 6, 6, 8, 8, 3, 0, 6, 0, 5, 8, 2, 2, 4, 7, 6, 3, 2, 6, 1, 8, 8, 6, 7, 7, 0, 2, 6, 4, 1, 6, 0, 5, 6, 4, 7, 1, 7, 6, 5, 2, 6, 7, 8, 2, 0, 3, 7, 0, 1, 6, 4, 4, 5, 6, 3, 7, 3, 0, 2, 7, 5, 2, 5, 7, 5] 
  
+array = [1, 3, 4, 4, 3, 2, 6, 8, 6, 8, 5, 4, 1, 2, 6, 4, 5, 0, 8, 4, 8, 6, 1, 4, 3, 7, 1, 1, 3, 4, 3, 2, 8, 0, 0, 6, 6, 8, 8, 3, 0, 6, 0, 5, 8, 2, 2, 4, 7, 6, 3, 2, 6, 1, 8, 8, 6, 7, 7, 0, 2, 6, 4, 1, 6, 0, 5, 6, 4, 7, 1, 7, 6, 5, 2, 6, 7, 8, 2, 0, 3, 7, 0, 1, 6, 4, 4, 5, 6, 3, 7, 3, 0, 2, 7, 5, 2, 5, 7, 5] 
+ 
+
+
+ 
+
+
