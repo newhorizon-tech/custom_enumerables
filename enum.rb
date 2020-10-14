@@ -21,7 +21,7 @@ module Enumerable
 
   def my_select
     if block_given?
-      my_arr = self.to_a
+      my_arr = to_a
       result = []
       my_arr.length.times do |i|
         result << my_arr[i] if yield(my_arr[i])
@@ -33,11 +33,12 @@ module Enumerable
   end
 
   def my_all?(_arg = nil)
+    my_arr = to_a
     result = true
     if block_given?
-      length.times { |i| result = false if !yield(self[i]) or self[i].nil? }
+      my_arr.length.times { |i| result = false if !yield(my_arr[i]) or my_arr[i].nil? }
     else
-      length.times { |i| result = false if self[i].nil? }
+      my_arr.length.times { |i| result = false if my_arr[i].nil? }
     end
     result
   end
@@ -217,13 +218,15 @@ end
 # p { (1..4).my_map(&cat_proc) }
 # puts '-' * 40
 
-
 #--------------------------------------------------------------------------------
- 
-array = [1, 3, 4, 4, 3, 2, 6, 8, 6, 8, 5, 4, 1, 2, 6, 4, 5, 0, 8, 4, 8, 6, 1, 4, 3, 7, 1, 1, 3, 4, 3, 2, 8, 0, 0, 6, 6, 8, 8, 3, 0, 6, 0, 5, 8, 2, 2, 4, 7, 6, 3, 2, 6, 1, 8, 8, 6, 7, 7, 0, 2, 6, 4, 1, 6, 0, 5, 6, 4, 7, 1, 7, 6, 5, 2, 6, 7, 8, 2, 0, 3, 7, 0, 1, 6, 4, 4, 5, 6, 3, 7, 3, 0, 2, 7, 5, 2, 5, 7, 5] 
- 
 
+array = [1, 3, 4, 4, 3, 2, 6, 8, 6, 8, 5, 4, 1, 2, 6, 4, 5, 0, 8, 4, 8, 6, 1,
+         4, 3, 7, 1, 1, 3, 4, 3, 2, 8, 0, 0, 6, 6, 8, 8, 3, 0, 6, 0, 5, 8, 2, 2, 4, 7,
+         6, 3, 2, 6, 1, 8, 8, 6, 7, 7, 0, 2, 6, 4, 1, 6, 0, 5, 6, 4, 7, 1, 7, 6, 5, 2,
+         6, 7, 8, 2, 0, 3, 7, 0, 1, 6, 4, 4, 5, 6, 3, 7, 3, 0, 2, 7, 5, 2, 5, 7, 5]
 
- 
-
-
+false_block = proc { |num| num > 9 }
+range = Range.new(5, 50)
+p range.my_all?(&false_block)
+puts 'Original'
+p range.all?(&false_block)
