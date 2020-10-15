@@ -2,10 +2,6 @@
 
 > The goal of the project was to explore the inner working of enumerables in Ruby and then implement custom versions of various enumerables
 
-## Live Demo
-
-[![Run on Repl.it]()
-
 ## Built With
 
 - Ruby
