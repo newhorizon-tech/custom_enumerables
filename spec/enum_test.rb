@@ -5,6 +5,8 @@ RSpec.describe Enumerable do
     let(:range){(1..10)}
     let(:hashh){["cat", "dog", "wombat"]}
     let(:truthy) {[]}
+    let(:none){["blue", "red", "green"]}
+    let(:none_array){[nil, false]}
     describe "#my_each" do
         context "a block is given" do
             it "should return the element of an array" do
@@ -55,6 +57,40 @@ RSpec.describe Enumerable do
         context "No argument is given" do
             it "should return true if all the elements are truthy" do
                 expect(truthy.my_all?).to eql(truthy.all?)
+            end
+        end
+    end
+    describe "#my_any?" do
+        context "a block is given" do
+            it "should return true if at least one of the elements it's true" do
+                expect(hashh.my_any?{|word| word.length >= 3}).to eql(hashh.any?{|word| word.length >= 3})
+            end
+        end
+        context "an argument is given without a block" do
+            it "should return true if at least one of the elements inlude the argument" do
+                expect(hashh.my_any?(/d/)).to eql(hashh.any?(/d/))
+            end
+        end
+        context "No argument is given" do
+            it "Should return true if at least one of the elements is truthy" do
+                expect(truthy.my_any?).to eql(truthy.any?)
+            end
+        end
+    end
+    describe "#my_none?" do
+        context "a block is given" do
+            it "should return true if none of the elements its true" do
+                expect(none.my_none?{|word| word.length >= 5}).to eql(none.none?{|word| word.length >= 5})
+            end
+        end
+        context "An argument is given without a block" do
+            it "Should return true if none of the elements include the argument" do
+                expect(none.my_none?(/y/)).to eql(none.none?(/y/))
+            end
+        end
+        context "No argument is given" do
+            it "Should return true if none of the elements is truthy" do
+                expect(none_array.my_none?).to eql(none_array.none?)
             end
         end
     end
