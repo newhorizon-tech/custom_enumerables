@@ -8,6 +8,7 @@ RSpec.describe Enumerable do
     let(:none){["blue", "red", "green"]}
     let(:none_array){[nil, false]}
     let(:count_arr) {[1,2,4,2]}
+    let(:inject_arr){(5..10)}
     describe "#my_each" do
         context "a block is given" do
             it "should return the element of an array" do
@@ -125,6 +126,31 @@ RSpec.describe Enumerable do
         context "a block is not given" do
             it "should return the enumerable" do
                 expect(arr.my_map.is_a?(Enumerable)).to eql(arr.map.is_a?(Enumerable))
+            end
+        end
+    end
+    describe "#my_inject" do
+        context "an argument is given and the argument is a symbol" do
+            it "Should return the operation based on the symbol" do
+                expect(inject_arr.my_inject(:+)).to eql(inject_arr.inject(:+))
+                expect(inject_arr.my_inject(:*)).to eql(inject_arr.inject(:*))
+            end
+        end
+        context "Two arguments are given, one is a symbol and the other is initial." do
+            it "Should return the operation based on the symbol and starting from the initial number" do
+                expect(inject_arr.my_inject(5, :+)).to eql(inject_arr.inject(5, :+))
+                expect(inject_arr.my_inject(5, :*)).to eql(inject_arr.inject(5, :*))
+            end
+        end
+        context "One argument is given with a block, and it is a initial" do
+            it "SHould return the operation based on the initial and the block" do
+                expect(inject_arr.my_inject(1){|number, n| number + n}).to eql(inject_arr.inject(1){|number, n| number + n})
+                expect(inject_arr.my_inject(1){|number, n| number * n}).to eql(inject_arr.inject(1){|number, n| number * n})
+            end
+        end
+        context "The block is given" do
+            it "Should return the operation based on the block" do
+                expect(inject_arr.my_inject{|par1, par2| par1 > par2 ? par1 : par2})
             end
         end
     end
