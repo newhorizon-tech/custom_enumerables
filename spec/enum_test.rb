@@ -7,6 +7,7 @@ RSpec.describe Enumerable do
     let(:truthy) {[]}
     let(:none){["blue", "red", "green"]}
     let(:none_array){[nil, false]}
+    let(:count_arr) {[1,2,4,2]}
     describe "#my_each" do
         context "a block is given" do
             it "should return the element of an array" do
@@ -91,6 +92,39 @@ RSpec.describe Enumerable do
         context "No argument is given" do
             it "Should return true if none of the elements is truthy" do
                 expect(none_array.my_none?).to eql(none_array.none?)
+            end
+        end
+    end
+
+    describe "#my_count" do
+        context "a block is given" do
+            it "should return the count of the element that pass the condition" do
+                expect(count_arr.my_count{|num| num % 2 == 0}).to eql(count_arr.count{|num| num % 2 == 0})
+            end
+        end
+
+        context "an argument is given without a block" do
+            it "should return the count of the given argument" do
+                expect(count_arr.my_count(4)).to eql(count_arr.count(4))
+            end
+        end
+
+        context "neither argument or block is given" do
+            it "should return the length of the array" do
+                expect(count_arr.my_count).to eql(count_arr.count)
+            end
+        end
+    end
+
+    describe "#my_map" do
+        context "a block is given" do
+            it "should return the element that satisfy the condition" do
+                expect(arr.my_map {|num| num.even?}).to eql(arr.map {|num| num.even?})
+            end 
+        end
+        context "a block is not given" do
+            it "should return the enumerable" do
+                expect(arr.my_map.is_a?(Enumerable)).to eql(arr.map.is_a?(Enumerable))
             end
         end
     end
